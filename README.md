@@ -23,7 +23,11 @@ H2 in memory db
 
 > To Run the Zookeeper & Kafka Server
 ### Open terminal and navigate to the folder where you have installed kafka
-> Use `bin/zookeeper-server-start.sh config/zookeeper.properties` to start the zookeeper service.
-> Use `bin/kafka-server-start.sh config/server.properties` to start the kafka broker service in new tab/terminal.
+> Use `bin/zookeeper-server-start.sh config/zookeeper.properties` to start the zookeeper service. </br>
+> Use `bin/kafka-server-start.sh config/server.properties` to start the kafka broker service in new tab/terminal. </br>
+
 > [!NOTE]
 > If you are on Windows navigate to Windows directory inside kafka folder to find above files.
+
+> [!TIP]
+> You can create topics, run producers and consumer on your terminal itself. Refer the quickstart guide.

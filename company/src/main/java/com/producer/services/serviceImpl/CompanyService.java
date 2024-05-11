@@ -1,14 +1,15 @@
 package com.producer.services.serviceImpl;
 
+import com.producer.constants.ActionType;
 import com.producer.constants.CompanyConstants;
 import com.producer.constants.CompanyCreationConstants;
 import com.producer.kafkaProducer.ProduceEvent;
 import com.producer.model.Company;
+import com.producer.model.dto.UpgradeRequestDto;
 import com.producer.repository.CompanyRepository;
 import com.producer.services.ICompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +23,18 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public Long createNewCompany(Company company) {
-        company.setCurrentSku(CompanyCreationConstants.CURRENT_SKU);
-        company.setPreviousSku(CompanyCreationConstants.PREVIOUS_SKU);
+        company.setCurrentSku(CompanyCreationConstants.SIMPLE);
+        company.setPreviousSku(CompanyCreationConstants.SIMPLE);
         this.companyRepository.save(company);
         return company.getRealmId();
+    }
+
+    @Override
+    public void updateCompanySku(Company company) {
+        Company companyObj = getByCompanyId(company.getRealmId());
+        companyObj.setCurrentSku(company.getCurrentSku());
+        companyObj.setPreviousSku(company.getPreviousSku());
+        this.companyRepository.save(companyObj);
     }
 
     @Override
@@ -42,12 +51,18 @@ public class CompanyService implements ICompanyService {
                 return String.format("action=UpgradeCompany; status=Invalid; message=%s", company.getCurrentSku());
             }
             else{
-                boolean isEventProduced = produceEvent.sendData("Upgrade Event produced");
+                UpgradeRequestDto upgradeRequestObj = new UpgradeRequestDto(company.getRealmId(), ActionType.UPGRADE, company.getCurrentSku(), company.getPreviousSku());
+                boolean isEventProduced = produceEvent.sendData(upgradeRequestObj);
                 if(isEventProduced) return String.format("action=EventProduce; status=Success; message=UpgradeEventProduced: %s", realmId);
                 return String.format("action=EventProduce; status=Failed; message=UpgradeEventProduced: %s", realmId);
             }
         }
         return String.format("action=UpgradeCompany; status=Failed; message=SomethingWentWrong: %s", realmId);
+    }
 
+    @Override
+    public Company getByCompanyId(Long companyId) {
+        Optional<Company> optionalCompany = this.companyRepository.findById(companyId);
+        return optionalCompany.orElse(null);
     }
 }

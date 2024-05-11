@@ -25,10 +25,8 @@ public class CompanyController {
     @PostMapping("/")
     public ResponseEntity<String> createCompany(@RequestBody Company company){
         Optional<Long> realmId = Optional.of(this.iCompanyService.createNewCompany(company));
-        if(realmId.isPresent()){
-            return ResponseEntity.ok(String.format("action=CreateCompany; status=success; message=CompanyCreatedWithCompanyId: %s", realmId.get()));
-        }
-        return new ResponseEntity<>("action=CreateCompany; status=failed; message=CompanyCreationFailed",HttpStatus.INTERNAL_SERVER_ERROR);
+        return realmId.map(aLong -> ResponseEntity.ok(String.format("action=CreateCompany; status=success; message=CompanyCreatedWithCompanyId: %s", aLong)))
+                .orElseGet(() -> new ResponseEntity<>("action=CreateCompany; status=failed; message=CompanyCreationFailed", HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @GetMapping("/")

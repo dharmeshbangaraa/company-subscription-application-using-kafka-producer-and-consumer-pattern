@@ -1,0 +1,40 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: billing-application
+  datasource:
+    url: jdbc:h2:tcp://localhost:9090/mem:testdb
+    username: sa
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+
+# kafka consumer configs
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: billing-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: latest
+      enable-auto-commit: false
+#kafka producer configs
+
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+
+event:
+  consumer:
+    enabled: true
+    topic-name: billing-entitlement
+

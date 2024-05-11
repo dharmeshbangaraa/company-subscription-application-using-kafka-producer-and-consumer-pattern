@@ -8,8 +8,12 @@ public interface ICompanyService {
 
     Long createNewCompany(Company company);
 
+    void updateCompanySku(Company company);
+
     List<Company> getAllCompanies();
 
     String upgradeCompany(Long realmId);
+
+    Company getByCompanyId(Long companyId);
 
 }

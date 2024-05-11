@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: company-billing-application
@@ -13,12 +16,25 @@ spring:
     console:
       enabled: true
 
-#kafka producer configs
+# kafka producer configs
   kafka:
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
-server:
-  port: 8080
+# kafka consumer configs
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: company-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: latest
+      enable-auto-commit: false
+
+event:
+  producer:
+    enabled: true
+    topic-name: billing-entitlement
+
+

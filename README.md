@@ -1,4 +1,4 @@
-# **Company Billing Application using Kafka**
+# **Company Subscription Application using Kafka**
 
 > Technologies used
 ```
@@ -31,3 +31,8 @@ H2 in memory db
 
 > [!TIP]
 > You can create topics, run producers and consumer on your terminal itself. Refer the quickstart guide.
+
+### High Level Diagram explaining the events flows.
+![image](https://github.com/dharmeshbangaraa/company-subscription-application-using-kafka-producer-and-consumer-pattern/assets/62675598/103d64b1-d4e8-433e-8565-4334621cd0b6)
+
+

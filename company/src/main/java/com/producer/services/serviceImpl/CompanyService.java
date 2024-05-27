@@ -25,8 +25,8 @@ public class CompanyService implements ICompanyService {
     public Long createNewCompany(Company company) {
         company.setCurrentSku(CompanyCreationConstants.SIMPLE);
         company.setPreviousSku(CompanyCreationConstants.SIMPLE);
-        this.companyRepository.save(company);
-        return company.getRealmId();
+        Company savedCompany = this.companyRepository.save(company);
+        return savedCompany.getRealmId();
     }
 
     @Override
